@@ -10,6 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var paletteView: UIView!
+    
+    override func viewWillLayoutSubviews() {
+        paletteView.layer.cornerRadius = paletteView.frame.width * 0.05
+        paletteView.layer.borderWidth = 1.0
+        paletteView.layer.borderColor = UIColor.gray.cgColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

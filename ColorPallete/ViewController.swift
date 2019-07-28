@@ -58,6 +58,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setDefaultValues()
+        addDoneButton()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        dismissKeyboard()
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -104,7 +109,21 @@ class ViewController: UIViewController {
         updatePaletteView()
     }
     
+    func addDoneButton() {
+        let toolbar = UIToolbar()
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissKeyboard))
+        toolbar.items = [doneButton]
+        toolbar.sizeToFit()
+        
+        redTF.inputAccessoryView = toolbar
+        greenTF.inputAccessoryView = toolbar
+        blueTF.inputAccessoryView = toolbar
+    }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
 }
+
 

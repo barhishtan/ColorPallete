@@ -86,7 +86,13 @@ class ViewController: UIViewController {
             showAlert()
             return
         }
-        if value > 1 { value = 1 }
+        
+        if value > 1 {
+            value = 1
+        } else if value < 0 {
+            value = 0
+        }
+        
         
         switch sender.tag {
         case 0:

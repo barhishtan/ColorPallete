@@ -140,7 +140,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="blueLabel" destination="5LD-Vd-44O" id="0YL-Nj-uc6"/>
+                        <outlet property="blueSlider" destination="zAU-vj-8dH" id="NpX-Ox-yVP"/>
+                        <outlet property="blueTF" destination="PxA-Gp-msv" id="CZs-YZ-1Hk"/>
+                        <outlet property="greenLabel" destination="ie4-yL-5vy" id="rnM-YM-6dS"/>
+                        <outlet property="greenSlider" destination="GbW-4g-9dS" id="JxT-6L-85g"/>
+                        <outlet property="greenTF" destination="lEJ-Q4-OPq" id="XeU-5U-JAZ"/>
                         <outlet property="paletteView" destination="6K7-k8-gQy" id="cZO-cs-ewD"/>
+                        <outlet property="redLabel" destination="Wao-Ki-nn9" id="RaO-6S-aCd"/>
+                        <outlet property="redSlider" destination="rQH-LG-oFh" id="oSy-B6-o3F"/>
+                        <outlet property="redTF" destination="u20-U4-xTV" id="0Kr-x9-T6u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

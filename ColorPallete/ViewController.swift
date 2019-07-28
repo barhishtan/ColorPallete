@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     
     private var redValue: Float! {
         willSet (newValue) {
+            let newValue = roundf(newValue * 100) / 100
             redLabel.text = String(newValue)
             redSlider.value = newValue
             redTF.text = String(newValue)
@@ -33,13 +34,15 @@ class ViewController: UIViewController {
     }
     private var greenValue: Float! {
         willSet (newValue) {
+            let newValue = roundf(newValue * 100) / 100
             greenLabel.text = String(newValue)
             greenSlider.value = newValue
             greenTF.text = String(newValue)
         }
     }
     private var blueValue: Float!{
-        willячSet (newValue) {
+        willSet (newValue) {
+            let newValue = roundf(newValue * 100) / 100
             blueLabel.text = String(newValue)
             blueSlider.value = newValue
             blueTF.text = String(newValue)
@@ -57,15 +60,51 @@ class ViewController: UIViewController {
         setDefaultValues()
     }
     
-    func roundValue(_ value: Float) -> Float {
-        return roundf(value / 0.01) * 0.01
+    @IBAction func sliderChanged(_ sender: UISlider) {
+        switch sender.tag {
+        case 0:
+            redValue = redSlider.value
+        case 1:
+            greenValue = greenSlider.value
+        case 2:
+            blueValue = blueSlider.value
+        default:
+            break
+        }
+        
+        updatePaletteView()
     }
     
-    func setDefaultValues() {
-        redValue = roundValue(redSlider.value)
-        greenValue = roundValue(greenSlider.value)
-        blueValue = roundValue(blueSlider.value)
-        paletteView.backgroundColor = UIColor(red: CGFloat(redValue), green: CGFloat(greenValue), blue: CGFloat(blueValue), alpha: 1.0)
+    @IBAction func textFieldChanged(_ sender: UITextField) {
+        guard let valueTF = sender.text else { return }
+        guard let value = Float(valueTF) else { return }
+        
+        switch sender.tag {
+        case 0:
+            redValue = value
+        case 1:
+            greenValue = value
+        case 2:
+            blueValue = value
+        default:
+            break
+        }
+        
+        updatePaletteView()
     }
+    
+    private func updatePaletteView() {
+       paletteView.backgroundColor = UIColor(red: CGFloat(redValue), green: CGFloat(greenValue), blue: CGFloat(blueValue), alpha: 1.0)
+    }
+    
+    private func setDefaultValues() {
+        redValue = redSlider.value
+        greenValue = greenSlider.value
+        blueValue = blueSlider.value
+        updatePaletteView()
+    }
+    
+    
+    
 }
 

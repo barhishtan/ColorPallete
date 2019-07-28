@@ -25,24 +25,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var blueTF: UITextField!
     
     private var redValue: Float! {
-        willSet (newValue) {
-            let newValue = roundf(newValue * 100) / 100
+        willSet (value) {
+            let newValue = roundf(value * 100) / 100
             redLabel.text = String(newValue)
             redSlider.value = newValue
             redTF.text = String(newValue)
         }
     }
     private var greenValue: Float! {
-        willSet (newValue) {
-            let newValue = roundf(newValue * 100) / 100
+        willSet (value) {
+            let newValue = roundf(value * 100) / 100
             greenLabel.text = String(newValue)
             greenSlider.value = newValue
             greenTF.text = String(newValue)
         }
     }
     private var blueValue: Float!{
-        willSet (newValue) {
-            let newValue = roundf(newValue * 100) / 100
+        willSet (value) {
+            let newValue = roundf(value * 100) / 100
             blueLabel.text = String(newValue)
             blueSlider.value = newValue
             blueTF.text = String(newValue)
@@ -82,7 +82,11 @@ class ViewController: UIViewController {
     
     @IBAction func textFieldChanged(_ sender: UITextField) {
         guard let valueTF = sender.text else { return }
-        guard let value = Float(valueTF) else { return }
+        guard var value = Float(valueTF) else {
+            showAlert()
+            return
+        }
+        if value > 1 { value = 1 }
         
         switch sender.tag {
         case 0:
@@ -111,7 +115,8 @@ class ViewController: UIViewController {
     
     func addDoneButton() {
         let toolbar = UIToolbar()
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .done,
+                                         target: self, action: #selector(dismissKeyboard))
         toolbar.items = [doneButton]
         toolbar.sizeToFit()
         
@@ -122,6 +127,12 @@ class ViewController: UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "Ошибка", message: "Введите числовое значение", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

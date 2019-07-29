@@ -125,7 +125,8 @@ class ViewController: UIViewController {
         let toolbar = UIToolbar()
         let doneButton = UIBarButtonItem(title: "Done", style: .done,
                                          target: self, action: #selector(dismissKeyboard))
-        let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                             target: nil, action: nil)
         toolbar.items = [flexsibleSpace, doneButton]
         toolbar.sizeToFit()
         

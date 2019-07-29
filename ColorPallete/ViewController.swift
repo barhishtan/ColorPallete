@@ -52,6 +52,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        redTF.delegate = self
+        greenTF.delegate = self
+        blueTF.delegate = self
+        
         paletteView.layer.cornerRadius = paletteView.frame.width * 0.05
         paletteView.layer.borderWidth = 1.0
         paletteView.layer.borderColor = UIColor.gray.cgColor
@@ -73,34 +77,6 @@ class ViewController: UIViewController {
             greenValue = greenSlider.value
         case 2:
             blueValue = blueSlider.value
-        default:
-            break
-        }
-        
-        updatePaletteView()
-    }
-    
-    @IBAction func textFieldChanged(_ sender: UITextField) {
-        guard let valueTF = sender.text else { return }
-        guard var value = Float(valueTF) else {
-            showAlert()
-            return
-        }
-        
-        if value > 1 {
-            value = 1
-        } else if value < 0 {
-            value = 0
-        }
-        
-        
-        switch sender.tag {
-        case 0:
-            redValue = value
-        case 1:
-            greenValue = value
-        case 2:
-            blueValue = value
         default:
             break
         }
@@ -147,4 +123,32 @@ class ViewController: UIViewController {
     
 }
 
-
+extension ViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+    
+        guard let valueTF = textField.text else { return }
+        guard var value = Float(valueTF) else {
+            showAlert()
+            return
+        }
+        
+        if value > 1 {
+            value = 1
+        } else if value < 0 {
+            value = 0
+        }
+        
+        switch textField.tag {
+        case 0:
+            redValue = value
+        case 1:
+            greenValue = value
+        case 2:
+            blueValue = value
+        default:
+            break
+        }
+        
+        updatePaletteView()
+    }
+}

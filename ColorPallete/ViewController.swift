@@ -48,20 +48,20 @@ class ViewController: UIViewController {
             blueTF.text = String(newValue)
         }
     }
-    
-    override func viewWillLayoutSubviews() {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         paletteView.layer.cornerRadius = paletteView.frame.width * 0.05
         paletteView.layer.borderWidth = 1.0
         paletteView.layer.borderColor = UIColor.gray.cgColor
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        
         setDefaultValues()
         addDoneButton()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         dismissKeyboard()
     }
     
@@ -109,7 +109,9 @@ class ViewController: UIViewController {
     }
     
     private func updatePaletteView() {
-       paletteView.backgroundColor = UIColor(red: CGFloat(redValue), green: CGFloat(greenValue), blue: CGFloat(blueValue), alpha: 1.0)
+       paletteView.backgroundColor =
+        UIColor(red: CGFloat(redValue), green: CGFloat(greenValue),
+                blue: CGFloat(blueValue), alpha: 1.0)
     }
     
     private func setDefaultValues() {
@@ -119,11 +121,12 @@ class ViewController: UIViewController {
         updatePaletteView()
     }
     
-    func addDoneButton() {
+    private func addDoneButton() {
         let toolbar = UIToolbar()
         let doneButton = UIBarButtonItem(title: "Done", style: .done,
                                          target: self, action: #selector(dismissKeyboard))
-        toolbar.items = [doneButton]
+        let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.items = [flexsibleSpace, doneButton]
         toolbar.sizeToFit()
         
         redTF.inputAccessoryView = toolbar
@@ -131,11 +134,11 @@ class ViewController: UIViewController {
         blueTF.inputAccessoryView = toolbar
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    func showAlert() {
+    private func showAlert() {
         let alert = UIAlertController(title: "Ошибка", message: "Введите числовое значение", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)

@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PalleteViewController: UIViewController {
+    
+    // MARK: - Public Properties
+    var red: Float!
+    var green: Float!
+    var blue: Float!
     
     // MARK: - IB Outlets
     @IBOutlet weak var paletteView: UIView!
@@ -37,6 +42,7 @@ class ViewController: UIViewController {
         paletteView.layer.borderWidth = 1.0
         paletteView.layer.borderColor = UIColor.gray.cgColor
         
+        setSlidersValues()
         setDefaultValues()
         updatePaletteView()
         addDoneButton()
@@ -81,12 +87,21 @@ class ViewController: UIViewController {
         blueTF.text = String(blueSlider.value)
     }
     
+    private func setSlidersValues() {
+        redSlider.value = red
+        greenSlider.value = green
+        blueSlider.value = blue
+    }
+    
     private func addDoneButton() {
         let toolbar = UIToolbar()
-        let doneButton = UIBarButtonItem(title: "Done", style: .done,
-                                         target: self, action: #selector(dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(dismissKeyboard))
         let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                             target: nil, action: nil)
+                                             target: nil,
+                                             action: nil)
         toolbar.items = [flexsibleSpace, doneButton]
         toolbar.sizeToFit()
         
@@ -100,15 +115,21 @@ class ViewController: UIViewController {
     }
     
     private func showAlert() {
-        let alert = UIAlertController(title: "Ошибка", message: "Введите числовое значение", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alert = UIAlertController(title: "Ошибка",
+                                      message: "Введите числовое значение",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: .default,
+                                      handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-    
+   
 }
 
+
+
 // MARK: Text field delegate
-extension ViewController: UITextFieldDelegate {
+extension PalleteViewController: UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)

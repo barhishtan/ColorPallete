@@ -8,12 +8,22 @@
 
 import UIKit
 
+// MARK: Pallete View Controller Delegate
+protocol PalleteVCDelegate {
+    
+    func setBackgroundColor(_ red: Float,
+                            _ green: Float,
+                            _ blue: Float)
+    
+}
+
 class PalleteViewController: UIViewController {
     
     // MARK: - Public Properties
     var red: Float!
     var green: Float!
     var blue: Float!
+    var delegate: PalleteVCDelegate!
     
     // MARK: - IB Outlets
     @IBOutlet weak var paletteView: UIView!
@@ -31,6 +41,11 @@ class PalleteViewController: UIViewController {
     @IBOutlet weak var blueTF: UITextField!
 
     // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,6 +84,14 @@ class PalleteViewController: UIViewController {
         updatePaletteView()
     }
     
+    @IBAction func doneButtonPressed(_ sender: UIButton) {
+        let red = redSlider.value
+        let green = greenSlider.value
+        let blue = blueSlider.value
+        delegate.setBackgroundColor(red, green, blue)
+        navigationController?.popViewController(animated: true)
+    }
+    
     // MARK: - Private Methods
     private func updatePaletteView() {
        paletteView.backgroundColor =
@@ -88,44 +111,12 @@ class PalleteViewController: UIViewController {
     }
     
     private func setSlidersValues() {
-        redSlider.value = red
-        greenSlider.value = green
-        blueSlider.value = blue
+        redSlider.value = roundf(red * 100) / 100
+        greenSlider.value = roundf(green * 100) / 100
+        blueSlider.value = roundf(blue * 100) / 100
     }
     
-    private func addDoneButton() {
-        let toolbar = UIToolbar()
-        let doneButton = UIBarButtonItem(title: "Done",
-                                         style: .done,
-                                         target: self,
-                                         action: #selector(dismissKeyboard))
-        let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                             target: nil,
-                                             action: nil)
-        toolbar.items = [flexsibleSpace, doneButton]
-        toolbar.sizeToFit()
-        
-        redTF.inputAccessoryView = toolbar
-        greenTF.inputAccessoryView = toolbar
-        blueTF.inputAccessoryView = toolbar
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    private func showAlert() {
-        let alert = UIAlertController(title: "Ошибка",
-                                      message: "Введите числовое значение",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: .default,
-                                      handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-   
 }
-
 
 
 // MARK: Text field delegate
@@ -165,5 +156,45 @@ extension PalleteViewController: UITextFieldDelegate {
         }
         
         updatePaletteView()
+    }
+}
+
+// MARK: - Add Done Button
+extension PalleteViewController {
+    
+    private func addDoneButton() {
+        let toolbar = UIToolbar()
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(dismissKeyboard))
+        let flexsibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                             target: nil,
+                                             action: nil)
+        toolbar.items = [flexsibleSpace, doneButton]
+        toolbar.sizeToFit()
+        
+        redTF.inputAccessoryView = toolbar
+        greenTF.inputAccessoryView = toolbar
+        blueTF.inputAccessoryView = toolbar
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+}
+
+// MARK: Add Alert
+extension PalleteViewController {
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Ошибка",
+                                      message: "Введите числовое значение",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: .default,
+                                      handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

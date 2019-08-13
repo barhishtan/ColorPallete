@@ -49,6 +49,7 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,11 +63,6 @@ class ViewController: UIViewController {
         
         setDefaultValues()
         addDoneButton()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        dismissKeyboard()
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -84,10 +80,13 @@ class ViewController: UIViewController {
         updatePaletteView()
     }
     
+    // MARK: - Private Methods
     private func updatePaletteView() {
        paletteView.backgroundColor =
-        UIColor(red: CGFloat(redValue), green: CGFloat(greenValue),
-                blue: CGFloat(blueValue), alpha: 1.0)
+        UIColor(red: CGFloat(redValue),
+                green: CGFloat(greenValue),
+                blue: CGFloat(blueValue),
+                alpha: 1.0)
     }
     
     private func setDefaultValues() {
@@ -123,7 +122,14 @@ class ViewController: UIViewController {
     
 }
 
+// MARK: Text field delegate
 extension ViewController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        dismissKeyboard()
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
     
         guard let valueTF = textField.text else { return }
@@ -132,11 +138,9 @@ extension ViewController: UITextFieldDelegate {
             return
         }
         
-        if value > 1 {
-            value = 1
-        } else if value < 0 {
-            value = 0
-        }
+        if value > 1 { value = 1 }
+        else if value < 0 { value = 0 }
+        
         
         switch textField.tag {
         case 0:

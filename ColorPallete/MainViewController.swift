@@ -46,4 +46,5 @@ extension MainViewController: PalleteVCDelegate {
         self.green = green
         self.blue = blue
     }
+    
 }

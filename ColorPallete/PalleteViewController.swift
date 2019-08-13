@@ -197,4 +197,5 @@ extension PalleteViewController {
                                       handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    
 }

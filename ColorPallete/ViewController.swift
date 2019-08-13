@@ -9,7 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    // MARK: - IB Outlets
     @IBOutlet weak var paletteView: UIView!
     
     @IBOutlet weak var redLabel: UILabel!
@@ -23,31 +24,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var redTF: UITextField!
     @IBOutlet weak var greenTF: UITextField!
     @IBOutlet weak var blueTF: UITextField!
-    
-    private var redValue: Float! {
-        willSet (value) {
-            let newValue = roundf(value * 100) / 100
-            redLabel.text = String(newValue)
-            redSlider.value = newValue
-            redTF.text = String(newValue)
-        }
-    }
-    private var greenValue: Float! {
-        willSet (value) {
-            let newValue = roundf(value * 100) / 100
-            greenLabel.text = String(newValue)
-            greenSlider.value = newValue
-            greenTF.text = String(newValue)
-        }
-    }
-    private var blueValue: Float!{
-        willSet (value) {
-            let newValue = roundf(value * 100) / 100
-            blueLabel.text = String(newValue)
-            blueSlider.value = newValue
-            blueTF.text = String(newValue)
-        }
-    }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -62,17 +38,24 @@ class ViewController: UIViewController {
         paletteView.layer.borderColor = UIColor.gray.cgColor
         
         setDefaultValues()
+        updatePaletteView()
         addDoneButton()
     }
     
+    // MARK: - IB Actions
     @IBAction func sliderChanged(_ sender: UISlider) {
+        let newValue = String(roundf(sender.value * 100) / 100)
+        
         switch sender.tag {
         case 0:
-            redValue = redSlider.value
+            redLabel.text = newValue
+            redTF.text = newValue
         case 1:
-            greenValue = greenSlider.value
+            greenLabel.text = newValue
+            greenTF.text = newValue
         case 2:
-            blueValue = blueSlider.value
+            blueLabel.text = newValue
+            blueTF.text = newValue
         default:
             break
         }
@@ -83,17 +66,19 @@ class ViewController: UIViewController {
     // MARK: - Private Methods
     private func updatePaletteView() {
        paletteView.backgroundColor =
-        UIColor(red: CGFloat(redValue),
-                green: CGFloat(greenValue),
-                blue: CGFloat(blueValue),
+        UIColor(red: CGFloat(redSlider.value),
+                green: CGFloat(greenSlider.value),
+                blue: CGFloat(blueSlider.value),
                 alpha: 1.0)
     }
     
     private func setDefaultValues() {
-        redValue = redSlider.value
-        greenValue = greenSlider.value
-        blueValue = blueSlider.value
-        updatePaletteView()
+        redLabel.text = String(redSlider.value)
+        redTF.text = String(redSlider.value)
+        greenLabel.text = String(greenSlider.value)
+        greenTF.text = String(greenSlider.value)
+        blueLabel.text = String(blueSlider.value)
+        blueTF.text = String(blueSlider.value)
     }
     
     private func addDoneButton() {
@@ -138,17 +123,22 @@ extension ViewController: UITextFieldDelegate {
             return
         }
         
+        value = roundf(value * 100) / 100
         if value > 1 { value = 1 }
         else if value < 0 { value = 0 }
         
+        textField.text = String(value)
         
         switch textField.tag {
         case 0:
-            redValue = value
+            redSlider.value = value
+            redLabel.text = String(value)
         case 1:
-            greenValue = value
+            greenSlider.value = value
+            greenLabel.text = String(value)
         case 2:
-            blueValue = value
+            blueSlider.value = value
+            blueLabel.text = String(value)
         default:
             break
         }
